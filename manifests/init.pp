@@ -75,6 +75,9 @@
 #
 class syslogng (
   $ensure          = present,
+  $package_name    = 'syslog-ng',
+  $gentoo_keywords = '',
+  $gentoo_use      = '',
   $conf_dir        = '/etc/syslog-ng',
   $purge_conf_dir  = false,
   $log_dir         = '/var/log',
@@ -130,19 +133,23 @@ class syslogng (
     'syslogng/syslog-ng.conf.d/option.d/default.conf.erb'
   )
 
-  package { 'syslog-ng':
-    ensure => $ensure
-  } -> file {
+  include package
+
+  file {
     "${conf_dir}/syslog-ng.conf":
+      require => Class['syslogng::package'],
       ensure  => $ensure_file,
       content => template('syslogng/syslog-ng.conf.erb');
     "${conf_dir}/scl.conf":
+      require => Class['syslogng::package'],
       ensure => $ensure_file,
       source => 'puppet:///modules/syslogng/scl/scl.conf';
     "${conf_dir}/modules.conf":
+      require => Class['syslogng::package'],
       ensure => $ensure_file,
       source => 'puppet:///modules/syslogng/scl/modules.conf';
     "${log_dir}/syslog":
+      require => Class['syslogng::package'],
       ensure => $ensure_directory;
     [
       "${conf_dir}/patterndb.d",
