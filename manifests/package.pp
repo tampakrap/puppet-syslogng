@@ -6,11 +6,11 @@ class syslogng::package {
     portage::package { 'app-admin/syslog-ng':
       keywords => $syslogng::gentoo_keywords,
       use      => $syslogng::gentoo_use,
-      ensure   => $syslogng::ensure,
+      ensure   => $syslogng::package_ensure,
     }
   } else {
     package { $syslogng::package_name:
-      ensure => $syslogng::ensure,
+      ensure => $syslogng::package_ensure,
     }
   }
 

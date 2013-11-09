@@ -75,6 +75,7 @@
 #
 class syslogng (
   $ensure          = present,
+  $package_ensure  = present,
   $package_name    = 'syslog-ng',
   $gentoo_keywords = '',
   $gentoo_use      = '',
